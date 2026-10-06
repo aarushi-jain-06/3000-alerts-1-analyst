@@ -210,11 +210,11 @@ if page == "Command Center":
     cross_asset_count = len(inc_df[inc_df['assets'].apply(lambda x: isinstance(x, list) and len(x) > 1)]) if not inc_df.empty and 'assets' in inc_df.columns else 0
     
     st.markdown("<div class='section-label'>SYSTEM TELEMETRY</div>", unsafe_allow_html=True)
-    col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
-    col1.metric("Total Alerts", f"{total_alerts:,}")
+    col1, col2, col3, col4, col5, col6, col7 = st.columns([1.15, 1, 1.15, 1.15, 0.9, 0.9, 1.05])
+    col1.metric("Alerts", f"{total_alerts:,}")
     col2.metric("Incidents", f"{total_incidents:,}")
-    col3.metric("Noise Reduction", f"{noise_red:.1f}%")
-    col4.metric("MTTT Reduction", f"{metrics.get('mttt_reduction_pct_per_alert', 0):.1f}%")
+    col3.metric("Noise Reduced", f"{noise_red:.1f}%")
+    col4.metric("MTTT Reduced", f"{metrics.get('mttt_reduction_pct_per_alert', 0):.1f}%")
     col5.metric("Critical", crit_count)
     col6.metric("High", high_count)
     col7.metric("Cross-Asset", cross_asset_count)
@@ -231,7 +231,7 @@ if page == "Command Center":
             fig = px.pie(tier_counts, values='Count', names='Tier', hole=0.6, 
                          color='Tier', color_discrete_map=color_map, template='plotly_dark')
             fig.update_layout(margin=dict(t=20, b=20, l=20, r=20), showlegend=False, paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', font_color='#CBD5E1')
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width="stretch")
             
         st.info(f"🤖 **Model Info:** RandomForest F1={model_f1:.4f} | Trained on CICIDS2017 | Hybrid confidence")
         
@@ -240,7 +240,7 @@ if page == "Command Center":
             go.Bar(name='MTTT', x=['Baseline', 'Pipeline'], y=[metrics.get('baseline_mttt_per_alert_min', 0), metrics.get('pipeline_mttt_per_alert_min', 0)])
         ])
         fig_bar.update_layout(template='plotly_dark', margin=dict(t=20, b=20, l=20, r=20), height=250, paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', font_color='#CBD5E1')
-        st.plotly_chart(fig_bar, use_container_width=True)
+        st.plotly_chart(fig_bar, width="stretch")
 
     with c2:
         st.markdown("### Top 10 Incidents")
@@ -286,7 +286,7 @@ elif page == "Incidents Explorer":
         ]
         
         # Table of all incidents
-        st.dataframe(filtered[['incident_id', 'risk_tier', 'risk_score', 'asset_id', 'alert_count', 'start_time']], use_container_width=True, hide_index=True)
+        st.dataframe(filtered[['incident_id', 'risk_tier', 'risk_score', 'asset_id', 'alert_count', 'start_time']], width="stretch", hide_index=True)
         
         # Selection
         selected_id = st.selectbox("Select Incident for Details", options=filtered['incident_id'].tolist(), key='selected_incident')
@@ -338,7 +338,7 @@ elif page == "Incidents Explorer":
                 "Kill-chain bonus": inc.get("chain_bonus", "N/A"),
                 "ML confidence enabled": inc.get("ml_confidence", False),
             }
-            st.dataframe(pd.DataFrame([score_parts]), use_container_width=True, hide_index=True)
+            st.dataframe(pd.DataFrame([score_parts]), width="stretch", hide_index=True)
 
             trace = inc.get("investigation_trace", [])
             if trace:
@@ -427,7 +427,7 @@ elif page == "Analytics":
             tier_counts.columns = ['Tier', 'Count']
             color_map = {'CRITICAL': '#EF4444', 'HIGH': '#F97316', 'MEDIUM': '#EAB308', 'LOW': '#22C55E'}
             fig = px.bar(tier_counts, x='Tier', y='Count', color='Tier', color_discrete_map=color_map, template='plotly_dark')
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width="stretch")
             
     with col2:
         st.markdown("### MTTT Before/After")
@@ -436,7 +436,7 @@ elif page == "Analytics":
             go.Bar(name='Pipeline', x=['MTTT (min)'], y=[metrics.get('pipeline_mttt_per_alert_min', 0)], marker_color='#6EA8FE')
         ])
         fig_bar.update_layout(template='plotly_dark', barmode='group')
-        st.plotly_chart(fig_bar, use_container_width=True)
+        st.plotly_chart(fig_bar, width="stretch")
         
     st.markdown("### Alert Type Frequency")
     al_df = data['alerts']
@@ -445,7 +445,7 @@ elif page == "Analytics":
         type_counts.columns = ['Alert Type', 'Count']
         fig_types = px.bar(type_counts, x='Count', y='Alert Type', orientation='h', template='plotly_dark')
         fig_types.update_layout(yaxis={'categoryorder':'total ascending'})
-        st.plotly_chart(fig_types, use_container_width=True)
+        st.plotly_chart(fig_types, width="stretch")
         
     st.markdown("### Asset Heat Map")
     if not inc_df.empty:
@@ -453,12 +453,12 @@ elif page == "Analytics":
         asset_stats.columns = ['Asset', 'Incident Count', 'Avg Risk Score']
         fig_heat = px.treemap(asset_stats, path=['Asset'], values='Incident Count', color='Avg Risk Score', 
                               color_continuous_scale='Reds', template='plotly_dark')
-        st.plotly_chart(fig_heat, use_container_width=True)
+        st.plotly_chart(fig_heat, width="stretch")
 
     st.markdown("### Model Training History")
     rh = data['retrain_history']
     if not rh.empty:
-        st.dataframe(rh, use_container_width=True, hide_index=True)
+        st.dataframe(rh, width="stretch", hide_index=True)
 
 elif page == "Assets & MITRE":
     st.markdown("## Assets & MITRE")
@@ -591,7 +591,7 @@ elif page == "Predict":
             try:
                 df_up = pd.read_csv(uploaded)
                 st.markdown(f"**Loaded {len(df_up)} alerts.** Preview:")
-                st.dataframe(df_up.head(5), use_container_width=True, hide_index=True)
+                st.dataframe(df_up.head(5), width="stretch", hide_index=True)
 
                 required = {"alert_type", "base_severity", "false_positive_rate", "tactic"}
                 missing = required - set(df_up.columns)
