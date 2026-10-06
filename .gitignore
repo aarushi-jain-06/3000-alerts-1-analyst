@@ -1,0 +1,38 @@
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local secrets and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Large source datasets and downloaded archives
+cicids_clean.csv
+*.zip
+*.parquet
+
+# Generated local runtime data
+alerts.csv
+incidents.json
+review_queue.csv
+feedback_log.csv
+shift_brief.md
+mttt_metrics.md
+retrain_history.csv
+outputs/*
+!outputs/.gitkeep
+
+# Local model evaluation artefacts (the source can regenerate them)
+model_eval_charts.png
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
