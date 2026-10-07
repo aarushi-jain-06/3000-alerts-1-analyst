@@ -1,4 +1,4 @@
-# Member 2 — ML, Risk Scoring, Model Evaluation, and RAG
+# Ajasra — Member 2 — ML, Risk Scoring, Model Evaluation, and RAG
 
 ## Own
 

@@ -8,4 +8,8 @@ matplotlib>=3.7
 seaborn>=0.13
 xgboost>=2.0
 kagglehub>=0.2
+pytest>=8.0
+python-dotenv>=1.0
+google-generativeai>=0.8
+pydantic>=2.0
 # Optional local/free summarization: install Ollama separately and set OLLAMA_MODEL.

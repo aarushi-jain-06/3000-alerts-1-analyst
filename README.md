@@ -97,3 +97,48 @@ generated offline; provider errors always fall back safely.
   pull from MITRE's STIX/TAXII feed) for full technique coverage.
 - **Human loop**: wire `human_loop.apply_disposition()` to a ticketing
   system (Jira, ServiceNow) so disposition is a UI action, not a script call.
+
+---
+
+## Member Role: MITRE, Summaries, and Investigation
+
+This component provides evidence-grounded investigation traces, MITRE ATT&CK mapping, local RAG retrieval, multi-factor risk scoring, and next-shift handover briefs.
+
+### 1. Data Contract (`schemas.py` & `CONTRACT.md`)
+- **`Alert`**: `alert_id`, `timestamp`, `alert_type`, `severity` (1-5), `host`, `user`, `src_ip`, `dst_ip`, `description`, `asset_criticality` (1-5).
+- **`Incident`**: `incident_id`, `alerts: list[Alert]`. Includes helper accessors (`hosts`, `users`, `max_severity`, `max_criticality`, `start_time`, `end_time`).
+
+### 2. Modules
+- **`mitre_map.py`**:
+  - Maps alerts (`brute_force`, `phishing`, `malware_execution`, `lateral_movement`, `privilege_escalation`, `c2_beaconing`, `data_exfiltration`, etc.) to technique IDs and tactics.
+  - Aggregates incident tactics and sorts them in canonical Enterprise Kill-Chain order (Initial Access -> Execution -> Persistence -> Privilege Escalation -> Defense Evasion -> Credential Access -> Discovery -> Lateral Movement -> Collection -> Command and Control -> Exfiltration -> Impact).
+  - Flags unmapped or low-confidence alerts with `needs_human_review: True`.
+- **`rag.py`**:
+  - Local TF-IDF vectorization with cosine similarity over `knowledge_base/mitre_playbooks.json` and ATT&CK descriptions.
+  - `get_context(incident, k=3)` retrieves top-k response playbooks and detection indicators with unique source IDs (`MITRE-T...`, `PLAYBOOK-T...`).
+  - Zero paid API calls, runs entirely offline.
+- **`investigator.py`**:
+  - Reconstructs chronological event timelines from incident telemetry.
+  - Detects multi-hop attack paths, affected hosts, users, source IPs, and target IPs.
+  - Returns structured audit traces (`timeline`, `attack_path`, `transitions`, `affected_assets`, `steps`).
+- **`scoring.py`**:
+  - Multi-factor risk scoring formula weighting asset criticality (1-5 / 1-10 CMDB), max severity, kill-chain progression stage, cross-asset spread, and volume (capped).
+  - Returns numerical score (0-100), risk tier (`CRITICAL`, `HIGH`, `MEDIUM`, `LOW`), and human-readable `why` breakdown.
+- **`summarizer.py`**:
+  - Generates shift briefs with: Title, Risk score + reason, What happened (2-3 sentences), Timeline highlights, MITRE tactics/techniques, Affected assets, Next-shift actions, Evidence (alert IDs), and Human review required flag.
+  - Uses free Gemini model (`GEMINI_API_KEY` in `.env`) or local Ollama (`OLLAMA_MODEL`), with guaranteed deterministic offline template fallback.
+  - Strict anti-hallucination guarantees: cites exact alert IDs, states 'unknown' for absent fields.
+- **`metrics.py`**:
+  - `record_triage_comparison(alerts, incidents)`: Computes MTTT with vs. without the tool, noise reduction ratio, and total analyst hours saved.
+
+### 3. Demo & Testing
+Run the standalone demonstration on 3 multi-stage incidents + 1 FP cluster:
+```bash
+python3 demo_brief.py
+```
+
+Run test suite:
+```bash
+pytest tests/test_schemas.py tests/test_mitre_map.py tests/test_rag.py tests/test_investigator.py tests/test_scoring.py tests/test_summarizer.py tests/test_metrics.py -v
+```
+

@@ -5,20 +5,20 @@
 The team has two experienced members and four developing members. The experienced members should own architecture and model-risk decisions. The newer members should own complete, visible workstreams with clearly defined interfaces and regular review from an experienced partner.
 
 ```text
-Experienced Member 1 → Architecture, Backend, Integration
-Experienced Member 2 → ML, Risk Scoring, Model Evaluation, RAG
+Experienced Member 1 — Bhoomika → Architecture, Backend, Integration, Graph
+Experienced Member 2 — Ajasra → ML, Risk Scoring, Model Evaluation, RAG
 
-Member 3 → Frontend and Dashboard
-Member 4 → MITRE Content, Summaries, Investigation UX
-Member 5 → QA, Testing, Data Quality, DevOps
-Member 6 → SOC Workflow, Human Loop, Demo, Documentation
+Member 3 — Avantika → Frontend and Dashboard
+Member 4 — Arushi → MITRE Content, Summaries, Investigation UX
+Member 5 — Aditi → QA, Testing, Data Quality, DevOps
+Member 6 — Dev → SOC Workflow, Human Loop, Demo, Documentation
 ```
 
 ## Role 1 — Technical Lead and Backend Architect
 
 ### Recommended person
 
-Experienced Member 1.
+Experienced Member 1 — Bhoomika.
 
 ### Mission
 
@@ -63,7 +63,7 @@ Own the technical design and make sure every component connects into one reliabl
 
 ### Recommended person
 
-Experienced Member 2.
+Experienced Member 2 — Ajasra.
 
 ### Mission
 
@@ -111,7 +111,7 @@ Make risk scoring, model evaluation, and security reasoning technically credible
 
 ### Recommended person
 
-Developing Member 3.
+Developing Member 3 — Avantika.
 
 ### Mission
 
@@ -160,7 +160,7 @@ Turn the backend output into a clear SOC analyst experience.
 
 ### Recommended person
 
-Developing Member 4.
+Developing Member 4 — Arushi.
 
 ### Mission
 
@@ -204,7 +204,7 @@ Make every incident understandable, evidence-based, and connected to attacker be
 
 ### Recommended person
 
-Developing Member 5.
+Developing Member 5 — Aditi.
 
 ### Mission
 
@@ -250,7 +250,7 @@ Make sure the project runs reliably, produces correct numbers, and can be demons
 
 ### Recommended person
 
-Developing Member 6.
+Developing Member 6 — Dev.
 
 ### Mission
 

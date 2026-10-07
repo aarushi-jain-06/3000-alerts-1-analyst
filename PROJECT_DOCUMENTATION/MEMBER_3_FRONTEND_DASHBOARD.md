@@ -1,4 +1,4 @@
-# Member 3 — Frontend and SOC Dashboard
+# Avantika — Member 3 — Frontend and SOC Dashboard
 
 ## Own
 

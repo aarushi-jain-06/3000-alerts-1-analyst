@@ -1,4 +1,4 @@
-# Member 4 — MITRE Content, Summaries, and Investigation Experience
+# Arushi — Member 4 — MITRE Content, Summaries, and Investigation Experience
 
 ## Own
 

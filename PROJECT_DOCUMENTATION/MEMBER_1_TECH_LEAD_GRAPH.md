@@ -1,4 +1,4 @@
-# Member 1 — Technical Lead, Backend, and Graph Correlation
+# Bhoomika — Member 1 — Technical Lead, Backend, and Graph Correlation
 
 ## Own
 

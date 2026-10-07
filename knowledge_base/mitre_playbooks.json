@@ -1,0 +1,122 @@
+[
+  {
+    "source_id": "MITRE-T1110",
+    "title": "T1110: Brute Force",
+    "category": "mitre_technique",
+    "content": "Adversaries may use brute force attacks to systematically guess passwords or pre-authentication credentials across network services like SSH, RDP, Kerberos, or web portals. Monitor for high volumes of Event ID 4625 (logon failure), account lockouts, and rapid succession requests originating from external or unusual IP ranges."
+  },
+  {
+    "source_id": "PLAYBOOK-T1110",
+    "title": "Playbook: Credential Brute Force & Password Spray",
+    "category": "response_playbook",
+    "content": "Immediate Actions: 1) Temporarily lock or enforce password resets on targeted user accounts. 2) Block originating external attacker IP addresses at the perimeter firewall. 3) Inspect authentication logs for any successful logon (Event ID 4624) immediately succeeding failed attempts. 4) Enforce multi-factor authentication (MFA) challenge for affected accounts."
+  },
+  {
+    "source_id": "MITRE-T1566",
+    "title": "T1566: Phishing",
+    "category": "mitre_technique",
+    "content": "Phishing involves sending deceptive electronic communications to trick recipients into executing attachments or navigating to fraudulent websites to steal credentials or drop second-stage malware payloads. Look for suspicious inbound email headers, unapproved sender domains, and attachment execution telemetry."
+  },
+  {
+    "source_id": "PLAYBOOK-T1566",
+    "title": "Playbook: Email Phishing & Malicious Attachment Response",
+    "category": "response_playbook",
+    "content": "Immediate Actions: 1) Purge the malicious email message from all mailboxes across the organization by subject/sender hash. 2) Isolate endpoints where users opened the attachment. 3) Submit the attachment hash to EDR sandbox for behavioral analysis and extract secondary C2 domains. 4) Revoke browser and session tokens for impacted users."
+  },
+  {
+    "source_id": "MITRE-T1204",
+    "title": "T1204 / T1204.002: User Execution & Malicious File",
+    "category": "mitre_technique",
+    "content": "Adversaries rely on user execution to run malicious binaries or documents containing embedded macros, scripts, or weaponized payloads. Common child processes include cmd.exe, powershell.exe, or wscript.exe spawned by Microsoft Office products or web browsers."
+  },
+  {
+    "source_id": "PLAYBOOK-T1204",
+    "title": "Playbook: Malicious Script & Process Execution",
+    "category": "response_playbook",
+    "content": "Immediate Actions: 1) Isolate the endpoint from the network via EDR agent. 2) Kill the malicious parent and child process tree. 3) Collect memory dump and triage image using live response tools. 4) Check scheduled tasks and registry run keys for persistence artifacts left by the executed script."
+  },
+  {
+    "source_id": "MITRE-T1078",
+    "title": "T1078: Valid Accounts",
+    "category": "mitre_technique",
+    "content": "Adversaries abuse stolen credentials of legitimate accounts to bypass initial access detections, maintain persistence, and traverse lateral networks. Anomalous telemetry includes impossible travel, unexpected ISP geo-locations, or off-hours VPN connections without established workstation baselines."
+  },
+  {
+    "source_id": "PLAYBOOK-T1078",
+    "title": "Playbook: Compromised Credential & Impossible Travel",
+    "category": "response_playbook",
+    "content": "Immediate Actions: 1) Immediately revoke active OAuth tokens and terminate cloud and VPN sessions for the compromised principal. 2) Reset active directory and SSO passwords. 3) Review all cloud audit logs for new MFA device registrations or forwarding rule creation within 2 hours of logon."
+  },
+  {
+    "source_id": "MITRE-T1068",
+    "title": "T1068 / T1548: Privilege Escalation",
+    "category": "mitre_technique",
+    "content": "Adversaries leverage local operating system exploits, kernel bugs, or misconfigured access tokens to elevate privileges from standard user or service account context to SYSTEM, root, or Domain Admin. Signs include token impersonation, unusual driver loads, and unprivileged processes modifying security descriptors."
+  },
+  {
+    "source_id": "PLAYBOOK-T1068",
+    "title": "Playbook: Local Privilege Escalation Response",
+    "category": "response_playbook",
+    "content": "Immediate Actions: 1) Isolate host from domain network immediately to prevent lateral spread. 2) Inspect security event log for SeDebugPrivilege or SeImpersonatePrivilege grants. 3) Review recently created local administrator accounts and scheduled tasks. 4) Patch underlying OS kernel CVEs or enforce credential guard."
+  },
+  {
+    "source_id": "MITRE-T1021",
+    "title": "T1021 / T1021.002: Lateral Movement via Remote Services (SMB / PsExec)",
+    "category": "mitre_technique",
+    "content": "Adversaries move laterally across corporate networks using Windows Admin shares (ADMIN$, C$) and RPC/SMB connections. PsExec creates services named PSEXESVC or executes remote PowerShell commands via WinRM. Watch for cross-subnet SMB connections targeting Domain Controllers or database servers."
+  },
+  {
+    "source_id": "PLAYBOOK-T1021",
+    "title": "Playbook: Lateral Movement & Domain Controller Protection",
+    "category": "response_playbook",
+    "content": "Immediate Actions: 1) Sever network links between the pivot workstation and targeted servers (e.g. DC-01, Database). 2) Reset Kerberos krbtgt account twice if Domain Controller compromise is suspected. 3) Scan all machines contacted by the compromised source host within the last 24 hours. 4) Restrict SMB port 445 cross-workstation communication."
+  },
+  {
+    "source_id": "MITRE-T1071",
+    "title": "T1071 / T1071.001: Command and Control (Web Protocols & Beaconing)",
+    "category": "mitre_technique",
+    "content": "Adversaries utilize standard HTTP, HTTPS, or DNS protocols to establish persistent communication channels with external command and control (C2) servers. Beaconing often exhibits regular periodicity with subtle jitter, rare user-agents, and outbound connections to dynamic DNS or newly registered domains."
+  },
+  {
+    "source_id": "PLAYBOOK-T1071",
+    "title": "Playbook: C2 Beaconing Containment",
+    "category": "response_playbook",
+    "content": "Immediate Actions: 1) Sinkhole or block the C2 destination IP and FQDN at the perimeter DNS and web proxies. 2) Identify the specific PID communicating with the destination IP using netstat/EDR. 3) Terminate process, extract in-memory beacon configuration strings, and preserve payload for reverse engineering."
+  },
+  {
+    "source_id": "MITRE-T1041",
+    "title": "T1041: Exfiltration Over C2 Channel / Outbound Transfers",
+    "category": "mitre_technique",
+    "content": "Adversaries steal confidential organizational data, customer databases, or intellectual property by compressing files (e.g. 7-Zip, RAR) and transferring them outbound via encrypted channels or cloud storage providers. Look for abnormal outbound traffic spikes, high egress volume on non-standard ports, or large file archive creation in temp directories."
+  },
+  {
+    "source_id": "PLAYBOOK-T1041",
+    "title": "Playbook: Data Exfiltration Incident Response",
+    "category": "response_playbook",
+    "content": "Immediate Actions: 1) Cut outbound egress firewall rules for the affected database or file host. 2) Query NetFlow and proxy logs to quantify total bytes transferred to destination IP. 3) Identify specific database tables or directories accessed. 4) Notify legal and privacy officers if regulated customer PII was involved."
+  },
+  {
+    "source_id": "MITRE-T1046",
+    "title": "T1046: Network Service Discovery",
+    "category": "mitre_technique",
+    "content": "Adversaries enumerate remote network services using port scanning to map available attack surfaces. Distinguish between scheduled vulnerability management scanners (like Nessus or Qualys) and rogue internal endpoints probing internal IP subnets."
+  },
+  {
+    "source_id": "PLAYBOOK-T1046",
+    "title": "Playbook: Internal Scanning & Reconnaissance Triage",
+    "category": "response_playbook",
+    "content": "Immediate Actions: 1) Verify if scanning source IP matches approved vulnerability management inventory. 2) If unauthorized, isolate host and check for signs of earlier initial compromise. 3) Review firewall and router ACLs to limit unauthorized internal subnet sweeps."
+  },
+  {
+    "source_id": "MITRE-T1486",
+    "title": "T1486: Data Encrypted for Impact (Ransomware)",
+    "category": "mitre_technique",
+    "content": "Adversaries may encrypt data on target systems to interrupt availability of system and network resources and extort ransom. Signs include mass file modifications, unexpected ransomware notes, and stopping of backup or volume shadow copy services."
+  },
+  {
+    "source_id": "PLAYBOOK-T1486",
+    "title": "Playbook: Ransomware Outbreak Containment",
+    "category": "response_playbook",
+    "content": "Immediate Actions: 1) Disconnect all infected hosts from internal subnets and Wi-Fi immediately. 2) Disable scheduled tasks, shadow-copy deletion commands, and lock affected accounts. 3) Verify integrity of offline immutable backups before any restore."
+  }
+]

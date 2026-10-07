@@ -247,11 +247,11 @@ Production replacements:
 
 The complete team ownership and study plan is in [TEAM_ROLES.md](TEAM_ROLES.md) and [MEMBER_GUIDES.md](MEMBER_GUIDES.md).
 
-- Experienced Member 1 owns technical leadership, backend integration, and graph correlation.
-- Experienced Member 2 owns ML, hybrid risk scoring, model evaluation, and RAG retrieval/grounding.
-- Member 3 owns the Streamlit frontend and analyst dashboard.
-- Member 4 owns ATT&CK content, summaries, and investigation experience.
-- Member 5 owns tests, data quality, dependencies, and reliability.
-- Member 6 owns human workflow, MTTT, demo narrative, and documentation.
+- Bhoomika owns technical leadership, backend integration, and graph correlation.
+- Ajasra owns ML, hybrid risk scoring, model evaluation, and RAG retrieval/grounding.
+- Avantika owns the Streamlit frontend and analyst dashboard.
+- Arushi owns ATT&CK content, summaries, and investigation experience.
+- Aditi owns tests, data quality, dependencies, and reliability.
+- Dev owns human workflow, MTTT, demo narrative, and documentation.
 
 The operational codebase and running instructions are in [CODEBASE_AND_RUNNING.md](CODEBASE_AND_RUNNING.md). The detailed backend and model explanation is in [BACKEND_ML_PRACTICAL.md](BACKEND_ML_PRACTICAL.md), and the system-level design is in [FULL_ARCHITECTURE.md](FULL_ARCHITECTURE.md).

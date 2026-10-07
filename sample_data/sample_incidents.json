@@ -1,0 +1,146 @@
+[
+  {
+    "incident_id": "INC-2026-001",
+    "description": "Brute force attack progressing to credential compromise and lateral movement to Domain Controller",
+    "alerts": [
+      {
+        "alert_id": "ALT-1001",
+        "timestamp": "2026-10-07T08:10:00Z",
+        "alert_type": "brute_force",
+        "severity": 3,
+        "host": "AUTH-SRV-01",
+        "user": "asmith",
+        "src_ip": "198.51.100.44",
+        "dst_ip": "10.0.1.5",
+        "description": "Over 120 failed Kerberos authentication attempts detected within 3 minutes targeting user asmith from an external IP.",
+        "asset_criticality": 3
+      },
+      {
+        "alert_id": "ALT-1002",
+        "timestamp": "2026-10-07T08:14:15Z",
+        "alert_type": "successful_login",
+        "severity": 2,
+        "host": "AUTH-SRV-01",
+        "user": "asmith",
+        "src_ip": "198.51.100.44",
+        "dst_ip": "10.0.1.5",
+        "description": "Logon event 4624 succeeded for account asmith immediately following brute force cluster from same external IP.",
+        "asset_criticality": 3
+      },
+      {
+        "alert_id": "ALT-1003",
+        "timestamp": "2026-10-07T08:22:30Z",
+        "alert_type": "lateral_movement",
+        "severity": 5,
+        "host": "DC-01",
+        "user": "asmith",
+        "src_ip": "10.0.1.5",
+        "dst_ip": "10.0.0.1",
+        "description": "Remote administrative share ADMIN$ mounted on Primary Domain Controller DC-01 followed by PsExec service creation under asmith.",
+        "asset_criticality": 5
+      }
+    ]
+  },
+  {
+    "incident_id": "INC-2026-002",
+    "description": "Phishing spear-mail yielding macro/script malware execution and persistent C2 beaconing",
+    "alerts": [
+      {
+        "alert_id": "ALT-2001",
+        "timestamp": "2026-10-07T09:05:00Z",
+        "alert_type": "phishing",
+        "severity": 3,
+        "host": "WKSTN-FIN-12",
+        "user": "rcooper",
+        "src_ip": "203.0.113.88",
+        "dst_ip": "10.0.2.14",
+        "description": "Inbound malicious email with attachment 'Invoice_Overdue_Oct2026.xlsm' bypassed basic gateway filter and opened by user rcooper.",
+        "asset_criticality": 2
+      },
+      {
+        "alert_id": "ALT-2002",
+        "timestamp": "2026-10-07T09:08:42Z",
+        "alert_type": "malware_execution",
+        "severity": 4,
+        "host": "WKSTN-FIN-12",
+        "user": "rcooper",
+        "src_ip": "10.0.2.14",
+        "dst_ip": "10.0.2.14",
+        "description": "EXCEL.EXE spawned powershell.exe with base64 encoded payload downloading staged binary from staging host.",
+        "asset_criticality": 2
+      },
+      {
+        "alert_id": "ALT-2003",
+        "timestamp": "2026-10-07T09:15:00Z",
+        "alert_type": "c2_beaconing",
+        "severity": 4,
+        "host": "WKSTN-FIN-12",
+        "user": "rcooper",
+        "src_ip": "10.0.2.14",
+        "dst_ip": "198.51.100.200",
+        "description": "Periodic HTTPS beaconing traffic observed every 60 seconds with jitter to suspicious unregistered dynamic DNS domain.",
+        "asset_criticality": 2
+      }
+    ]
+  },
+  {
+    "incident_id": "INC-2026-003",
+    "description": "Local privilege escalation on database host leading to unauthorized archive and external exfiltration",
+    "alerts": [
+      {
+        "alert_id": "ALT-3001",
+        "timestamp": "2026-10-07T10:30:10Z",
+        "alert_type": "privilege_escalation",
+        "severity": 4,
+        "host": "CUST-DB-02",
+        "user": "appuser",
+        "src_ip": "10.0.3.50",
+        "dst_ip": "10.0.3.50",
+        "description": "Local token manipulation and abuse of elevation control mechanisms (SeImpersonatePrivilege) by appuser resulting in SYSTEM privilege acquisition.",
+        "asset_criticality": 5
+      },
+      {
+        "alert_id": "ALT-3002",
+        "timestamp": "2026-10-07T10:42:00Z",
+        "alert_type": "data_exfiltration",
+        "severity": 5,
+        "host": "CUST-DB-02",
+        "user": "SYSTEM",
+        "src_ip": "10.0.3.50",
+        "dst_ip": "185.220.101.5",
+        "description": "Encrypted 7z archive of customer transaction table streamed via high-bandwidth outbound SFTP to an unapproved foreign IP.",
+        "asset_criticality": 5
+      }
+    ]
+  },
+  {
+    "incident_id": "INC-2026-004",
+    "description": "Noisy low-priority false-positive alerts from routine maintenance and security scans",
+    "alerts": [
+      {
+        "alert_id": "ALT-4001",
+        "timestamp": "2026-10-07T11:00:00Z",
+        "alert_type": "port_scan_detected",
+        "severity": 1,
+        "host": "VULN-SCANNER-01",
+        "user": "svc_nessus",
+        "src_ip": "10.0.99.10",
+        "dst_ip": "10.0.2.0/24",
+        "description": "Scheduled weekly vulnerability port scan on VLAN 2 from authorized internal scanner host.",
+        "asset_criticality": 1
+      },
+      {
+        "alert_id": "ALT-4002",
+        "timestamp": "2026-10-07T11:05:00Z",
+        "alert_type": "usb_device_inserted",
+        "severity": 1,
+        "host": "RECEPTION-PC",
+        "user": "frontdesk",
+        "src_ip": "",
+        "dst_ip": "",
+        "description": "Approved ergonomic USB mouse plugged into front desk reception kiosk.",
+        "asset_criticality": 1
+      }
+    ]
+  }
+]

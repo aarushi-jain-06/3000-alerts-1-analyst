@@ -30,7 +30,7 @@ Every member should be able to answer:
 5. Why does a human still approve dispositions?
 6. How is MTTT measured?
 
-## Experienced Member 1 — Technical Lead, Backend, Graph Correlation
+## Bhoomika — Experienced Member 1 — Technical Lead, Backend, Graph Correlation
 
 ### Mission
 
@@ -90,7 +90,7 @@ Own the system contract and ensure the entire pipeline works as one reliable pro
 
 “We connect alerts that share assets or connection evidence inside a time window, so a multi-host attack becomes one explainable incident.”
 
-## Experienced Member 2 — ML, Risk Scoring, Model Evaluation, and RAG Lead
+## Ajasra — Experienced Member 2 — ML, Risk Scoring, Model Evaluation, and RAG Lead
 
 ### Mission
 
@@ -175,7 +175,7 @@ In `rag.py`: `_tokens()`, `retrieve()`, `context_for_incident()`, and the replac
 
 “ML is a supporting signal, not a black-box verdict. We combine it with false-positive priors, asset criticality, severity, and attack-stage diversity. RAG adds relevant ATT&CK knowledge to the brief.”
 
-## Member 3 — Frontend and SOC Dashboard
+## Avantika — Member 3 — Frontend and SOC Dashboard
 
 ### Primary codebase
 
@@ -216,7 +216,7 @@ Make the system usable by an analyst and visually convincing to judges.
 - Member 4 defines security wording.
 - Member 6 defines analyst workflow language.
 
-## Member 4 — MITRE Content, Briefs, and Investigation Experience
+## Arushi — Member 4 — MITRE Content, Briefs, and Investigation Experience
 
 ### Primary codebase
 
@@ -250,7 +250,7 @@ Make security content accurate and understandable. Member 2 owns retrieval imple
 6. Create realistic attack-story examples.
 7. Make investigation traces useful rather than decorative.
 
-## Member 5 — QA, Testing, Data Quality, and DevOps
+## Aditi — Member 5 — QA, Testing, Data Quality, and DevOps
 
 ### Primary codebase
 
@@ -285,7 +285,7 @@ Make the demo reproducible and prevent silent correctness failures.
 6. Verify dashboard startup.
 7. Maintain clean setup instructions.
 
-## Member 6 — Human Loop, Metrics, Demo, and Documentation
+## Dev — Member 6 — Human Loop, Metrics, Demo, and Documentation
 
 ### Primary codebase
 
